@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "693337441759",
+    "project_id": "edp-smart-lock-app",
+    "storage_bucket": "edp-smart-lock-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:693337441759:android:30879fc8b4cc7ca96bb06a",
+        "android_client_info": {
+          "package_name": "com.example.edp_smart_lock_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "693337441759-5jv6m853r1f4uek168q14ek6t0uq7f7c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKF6DzK8BXe3MwgQtndZ3Ql82nfoMzAy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "693337441759-5jv6m853r1f4uek168q14ek6t0uq7f7c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "693337441759-p4kck4iqlk58sff9ad6p7rpac3ggr5sl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.edpSmartLockApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
