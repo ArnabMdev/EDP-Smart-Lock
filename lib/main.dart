@@ -1,7 +1,9 @@
 import 'package:edp_smart_lock_app/Screens/HomePage.dart';
+import 'package:edp_smart_lock_app/Screens/RegisterLock.dart';
 import 'package:edp_smart_lock_app/Screens/SignIn.dart';
 import 'package:edp_smart_lock_app/Screens/SignUp.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
@@ -24,11 +26,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
-      initialRoute: '/SignIn',
+      initialRoute: '/HomePage',
       routes: {
         '/SignIn' : (context) => SignIn(),
         '/SignUp' : (context) =>  const SignUp(),
-        '/HomePage' : (context) =>  const HomePage(),
+        '/HomePage' : (context) =>  HomePage(),
+        '/RegisterLock' : (context) =>  const RegisterLock(),
       },
     );
   }
