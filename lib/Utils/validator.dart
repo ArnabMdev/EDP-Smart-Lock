@@ -41,4 +41,15 @@ class Validator {
 
     return null;
   }
+
+  static String? validateLockLocation({required String lockLocation}) {
+    if (lockLocation == null) {
+      return null;
+    }
+    if (lockLocation.isEmpty) {
+      return 'Lock Location can\'t be empty';
+    }
+
+    return null;
+  }
 }

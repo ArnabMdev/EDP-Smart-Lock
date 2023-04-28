@@ -20,13 +20,6 @@ class _SignInState extends State<SignIn> {
 
   bool _isProcessing = false;
 
-  void _initializeFirebase() {
-    User? user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      Navigator.of(context).pushNamed('/HomePage');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -38,122 +31,123 @@ class _SignInState extends State<SignIn> {
           appBar: AppBar(
             title: const Text('Login to your smart Lock'),
           ),
-          body: Padding(
-            padding: const EdgeInsets.only(left: 24.0, right: 24.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 24.0),
-                  child: Text(
-                    'Login',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .headline1,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 24.0, right: 24.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 24.0),
+                    child: Text(
+                      'Login',
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline1,
+                    ),
                   ),
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      TextFormField(
-                        controller: _emailTextController,
-                        focusNode: _focusEmail,
-                        validator: (value) =>
-                            Validator.validateEmail(
-                              email: value!,
-                            ),
-                        decoration: InputDecoration(
-                          hintText: "Email",
-                          errorBorder: UnderlineInputBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                            borderSide: const BorderSide(
-                              color: Colors.red,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8.0),
-                      TextFormField(
-                        controller: _passwordTextController,
-                        focusNode: _focusPassword,
-                        obscureText: true,
-                        validator: (value) =>
-                            Validator.validatePassword(
-                              password: value!,
-                            ),
-                        decoration: InputDecoration(
-                          hintText: "Password",
-                          errorBorder: UnderlineInputBorder(
-                            borderRadius: BorderRadius.circular(6.0),
-                            borderSide: const BorderSide(
-                              color: Colors.red,
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                          controller: _emailTextController,
+                          focusNode: _focusEmail,
+                          validator: (value) =>
+                              Validator.validateEmail(
+                                email: value!,
+                              ),
+                          decoration: InputDecoration(
+                            hintText: "Email",
+                            errorBorder: UnderlineInputBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 24.0),
-                      _isProcessing
-                          ? const CircularProgressIndicator()
-                          : Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                _focusEmail.unfocus();
-                                _focusPassword.unfocus();
+                        const SizedBox(height: 8.0),
+                        TextFormField(
+                          controller: _passwordTextController,
+                          focusNode: _focusPassword,
+                          obscureText: true,
+                          validator: (value) =>
+                              Validator.validatePassword(
+                                password: value!,
+                              ),
+                          decoration: InputDecoration(
+                            hintText: "Password",
+                            errorBorder: UnderlineInputBorder(
+                              borderRadius: BorderRadius.circular(6.0),
+                              borderSide: const BorderSide(
+                                color: Colors.red,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24.0),
+                        _isProcessing
+                            ? const CircularProgressIndicator()
+                            : Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  _focusEmail.unfocus();
+                                  _focusPassword.unfocus();
 
-                                if (_formKey.currentState!
-                                    .validate()) {
-                                  setState(() {
-                                    _isProcessing = true;
-                                  });
+                                  if (_formKey.currentState!
+                                      .validate()) {
+                                    setState(() {
+                                      _isProcessing = true;
+                                    });
 
-                                  User? user = await FireAuth
-                                      .signInUsingEmailPassword(
-                                    email: _emailTextController.text,
-                                    password: _passwordTextController.text,
-                                    context: context,
-                                  );
+                                    User? user = await FireAuth
+                                        .signInUsingEmailPassword(
+                                      email: _emailTextController.text,
+                                      password: _passwordTextController.text,
+                                      context: context,
+                                    );
 
-                                  setState(() {
-                                    _isProcessing = false;
-                                  });
+                                    setState(() {
+                                      _isProcessing = false;
+                                    });
 
-                                  if (user != null) {
-                                    Navigator.of(context).pushNamed(
-                                        '/HomePage');
+                                    if (user != null) {
+                                      Navigator.of(context).pushNamed('/HomePage');
+                                    }
                                   }
-                                }
-                              },
-                              child: const Text(
-                                'Sign In',
-                                style: TextStyle(color: Colors.white),
+                                },
+                                child: const Text(
+                                  'Sign In',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 24.0),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed('/SignUp');
-                              },
-                              child: const Text(
-                                'Register',
-                                style: TextStyle(color: Colors.white),
+                            const SizedBox(width: 24.0),
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/SignUp');
+                                },
+                                child: const Text(
+                                  'Register',
+                                  style: TextStyle(color: Colors.white),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
+                          ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           )
       ),

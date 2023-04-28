@@ -124,7 +124,7 @@ class _SignUpState extends State<SignUp> {
 
                                   if (user != null) {
                                     Navigator.of(context)
-                                        .pushNamedAndRemoveUntil('HomePage',ModalRoute.withName('/HomePage'),
+                                        .pushNamedAndRemoveUntil('/RegisterLock',ModalRoute.withName('/SignIn'),
                                     );
                                   }
                                 }
