@@ -44,12 +44,15 @@ class _SignUpState extends State<SignUp> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 24.0),
-                  child: Text(
-                    'Sign Up',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .headline1,
+                  child: Center(
+                    child: Text(
+                      'Sign Up',
+                      style: Theme
+                          .of(context)
+                          .textTheme
+                          .headline1,
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
                 Form(

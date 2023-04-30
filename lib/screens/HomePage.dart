@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:edp_smart_lock_app/main.dart';
+import 'package:edp_smart_lock_app/models/UnlockHistory.dart';
+import 'package:edp_smart_lock_app/models/Lock.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+
 
 class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
@@ -16,9 +20,9 @@ class _HomePageState extends State<HomePage> {
   var _title = 'Smart Lock Assistant';
   var currentIcon = Icons.lock_open_outlined;
   var lastUnlocked = DateTime.now();
-  var isLocked = true;
   var _canCheckBiometric = false;
 
+  Lock? currentLock;
   List<BiometricType> _availableBiometric = [];
 
   Future<void> _signOut() async {
@@ -31,6 +35,18 @@ class _HomePageState extends State<HomePage> {
     if (user == null) {
       Navigator.of(context).pushReplacementNamed('/SignIn');
     }
+    final snapshot = await FirebaseFirestore.instance
+        .collection('locks')
+        .where('lockOwner', isEqualTo: user!.uid)
+        .limit(1)
+        .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      final lockDoc = snapshot.docs.first;
+      currentLock = Lock.fromMap(lockDoc.data(), lockDoc.reference.id);
+      print(currentLock!.lockName);
+    }
+
   }
 
   Future<void> _checkBiometric() async {
@@ -71,21 +87,25 @@ class _HomePageState extends State<HomePage> {
           useErrorDialogs: true,
           stickyAuth: true
       );
+      await currentLock!.toggleLock();
     } catch (e) {
       print(e);
     }
     setState(() {
       var authorized = authenticated ? true : false;
       if(authorized){
-        if(isLocked){
+        if(currentLock!.isLocked){
           titleString = "Tap below to Lock";
           currentIcon = Icons.lock_outline;
           lastUnlocked = DateTime.now();
+          var unlockHistory = UnlockHistory(timestamp: DateTime.now().millisecondsSinceEpoch);
+          unlockHistory. addUnlock();
+
         }else{
           titleString = "Tap below to Unlock";
           currentIcon = Icons.lock_open_outlined;
         }
-        isLocked = !isLocked;
+
       }
     });
   }
@@ -111,9 +131,15 @@ class _HomePageState extends State<HomePage> {
                 backgroundColor: Colors.blue,
                 actions: <Widget>[
                   IconButton(
-                    icon: const Icon(Icons.add_box_outlined),
+                    icon: const Icon(Icons.mode_edit_outlined),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/RegisterLock');
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.history),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/UnlockHistory');
                     },
                   ),
                   IconButton(
@@ -165,12 +191,15 @@ class _HomePageState extends State<HomePage> {
                       Container(
                           alignment: Alignment.center,
                           padding: const EdgeInsets.all(10),
-                          child: Text(
-                            '${lastUnlocked.hour}:${lastUnlocked.minute} ',
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 30),
+                          child: const Center(
+                            child: Text(
+                              '26th April 2023\n07:30 PM',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 22),
+                              textAlign: TextAlign.center,
+                            ),
                           )),
                     ],
                   ))),
