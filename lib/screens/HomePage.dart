@@ -5,6 +5,7 @@ import 'package:edp_smart_lock_app/models/Lock.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:http/http.dart' as http;
 
 
 class HomePage extends StatefulWidget {
@@ -100,10 +101,12 @@ class _HomePageState extends State<HomePage> {
           lastUnlocked = DateTime.now();
           var unlockHistory = UnlockHistory(timestamp: DateTime.now().millisecondsSinceEpoch);
           unlockHistory. addUnlock();
+          final response = http.get(Uri.http("192.168.222.112", "/unlock"));
 
         }else{
           titleString = "Tap below to Unlock";
           currentIcon = Icons.lock_open_outlined;
+          final response = http.get(Uri.http("192.168.222.112", "/lock"));
         }
 
       }
