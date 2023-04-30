@@ -42,6 +42,16 @@ class _SignUpState extends State<SignUp> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: Text(
+                    'Sign Up',
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .headline1,
+                  ),
+                ),
                 Form(
                   key: _registerFormKey,
                   child: Column(
