@@ -101,12 +101,12 @@ class _HomePageState extends State<HomePage> {
           lastUnlocked = DateTime.now();
           var unlockHistory = UnlockHistory(timestamp: DateTime.now().millisecondsSinceEpoch);
           unlockHistory. addUnlock();
-          final response = http.get(Uri.http("192.168.222.112", "/unlock"));
+          final response = http.get(Uri.http("192.168.171.112:80", "/unlock"));
 
         }else{
           titleString = "Tap below to Unlock";
           currentIcon = Icons.lock_open_outlined;
-          final response = http.get(Uri.http("192.168.222.112", "/lock"));
+          final response = http.get(Uri.http("192.168.171.112:80", "/lock"));
         }
 
       }
